@@ -1,0 +1,49 @@
+# TurboVLA Evaluation Configuration
+# python scripts/eval_policy.py --config policy/turbovla/deploy_policy.yml
+
+# ------------------------------------------------------------------
+# Basic experiment configuration (Each policy must be retained.)
+# ------------------------------------------------------------------
+policy_name: turbovla
+task_name: null
+setting: null
+model_name: null
+seed: 0
+max_episodes: 20
+max_steps: 1000
+headless: false
+pytorch_device: cuda
+filter_dataset_saving: true
+eval_video_log: true
+eval_video_obs_keys:
+  - cam_high
+  - cam_right_wrist
+  - cam_left_wrist
+eval_reset_sync_steps: 1
+
+# ------------------------------------------------------------------
+# TurboVLA adapter parameters used by get_model()
+# ------------------------------------------------------------------
+# Path to steps_*_ema_model.safetensors. config.yaml and
+# dataset_statistics.json must exist in one of its parent directories.
+checkpoint_path: null
+turbovla_python: /supconit-data/robosyn/envs/turbovla/bin/python
+turbovla_root: /supconit-data/code/RoboSynChallenge_ws/TurboVLA
+turbovla_starvla_runtime: null
+turbovla_checkpoints_root: /supconit-data/robosyn/checkpoints/turbovla
+turbovla_dinov3_path: null
+turbovla_bert_path: null
+turbovla_init_ckpt: null
+# Masked CUDA device for the worker (defaults to gpu_id).
+turbovla_cuda_visible_devices: null
+# Worker device override, e.g. cpu for offline smoke tests (default: cuda).
+turbovla_device: null
+# Env steps executed per eval() call. A fresh 50-step chunk is requested
+# from the worker whenever the queue is empty.
+turbovla_steps: 10
+# Must match the training video key order (data_config video_keys).
+turbovla_cam_order:
+  - cam_high
+  - cam_left_wrist
+  - cam_right_wrist
+task_description: Click the bell
