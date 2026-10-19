@@ -5,6 +5,7 @@ ROOT="${1:?Usage: $0 <checkpoint_root>}"
 mkdir -p "$ROOT/submission" "$ROOT/official"
 
 hf download HanJW2000/RoboSynChallenge \
+  --revision 924324d49eeca83e3d23a035ee3a83168a0ac527 \
   --local-dir "$ROOT/submission"
 
 hf download RoboSynChallenge/ACT_sim_manipulate_pipette \

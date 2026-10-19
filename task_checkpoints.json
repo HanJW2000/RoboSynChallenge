@@ -2,6 +2,7 @@
   "schema_version": 1,
   "team": "scv-think-tank",
   "huggingface_repo": "HanJW2000/RoboSynChallenge",
+  "huggingface_revision": "924324d49eeca83e3d23a035ee3a83168a0ac527",
   "tasks": {
     "table_rearrangement": {
       "policy": "turbovla",
