@@ -25,14 +25,17 @@ organizer evaluation.
 
 ## 1. Source completeness
 
-TurboVLA is fully vendored in this commit.  It is not a Git submodule and no
+The official preparation retains only `policy/`, so all participant-provided
+files are fully vendored there. TurboVLA is not a Git submodule and no
 source checkout from the training machine is required:
 
-- `third_party/TurboVLA/turbovla`: TurboVLA package;
-- `third_party/TurboVLA/third_party/starvla_runtime/starVLA`: starVLA runtime;
-- `third_party/TurboVLA/pyproject.toml`: package and dependency declaration;
-- `third_party/TurboVLA/uv.lock`: immutable UV dependency lock;
-- `third_party/TurboVLA/scripts/robotwin/requirements.txt`: readable RoboTwin
+- `policy/turbovla/third_party/TurboVLA/turbovla`: TurboVLA package;
+- `policy/turbovla/third_party/TurboVLA/third_party/starvla_runtime/starVLA`:
+  starVLA runtime;
+- `policy/turbovla/third_party/TurboVLA/pyproject.toml`: package declaration;
+- `policy/turbovla/third_party/TurboVLA/uv.lock`: immutable UV dependency lock;
+- `policy/turbovla/third_party/TurboVLA/scripts/robotwin/requirements.txt`:
+  readable RoboTwin
   dependency list.
 
 The checkpoint repository contains model weights only.  BERT, DINOv3, and
@@ -44,20 +47,20 @@ replacements.
 Follow the official repository setup to install RoboSynChallenge and
 EmbodiChain.  Install the policy environments as documented under
 `policy/act`, `policy/dp`, and `policy/smolvla`.  TurboVLA source is vendored at
-`third_party/TurboVLA`.  The submitted adapter was validated with Python
+`policy/turbovla/third_party/TurboVLA`. The submitted adapter was validated with Python
 3.11.16, PyTorch 2.7.0, torchvision 0.22.0, Transformers 4.57.6, and timm
 1.0.29.  The patch component of Python 3.11 may vary.
 Create its separate UV environment from the repository root:
 
 ```bash
-bash scripts/install_turbovla_uv.sh
+bash policy/turbovla/install_uv.sh
 ```
 
 The equivalent explicit commands are:
 
 ```bash
 uv sync \
-  --project third_party/TurboVLA \
+  --project policy/turbovla/third_party/TurboVLA \
   --python 3.11 \
   --frozen \
   --extra robotwin \
@@ -69,7 +72,7 @@ to PyTorch SDPA.  Set the two environment Python paths before evaluation:
 
 ```bash
 export ROBOSYN_VENV_DIR=/absolute/path/to/EmbodiChain/.venv
-export TURBOVLA_PYTHON="$PWD/third_party/TurboVLA/.venv/bin/python"
+export TURBOVLA_PYTHON="$PWD/policy/turbovla/third_party/TurboVLA/.venv/bin/python"
 ```
 
 `ROBOSYN_VENV_DIR` is the organizer's simulator environment;
@@ -80,7 +83,7 @@ stacks do not need to be merged.
 ## 3. Download checkpoints
 
 ```bash
-bash scripts/download_submission_checkpoints.sh /absolute/path/to/checkpoints
+bash policy/download_submission_checkpoints.sh /absolute/path/to/checkpoints
 ```
 
 This downloads Hugging Face revision
@@ -95,7 +98,7 @@ sha256sum -c SHA256SUMS
 ## 4. Evaluate one task
 
 ```bash
-bash scripts/eval_submission_task.sh \
+bash policy/eval_submission_task.sh \
   table_rearrangement random 0 /absolute/path/to/checkpoints \
   --headless True --max_episodes 100 --eval_video_log True
 ```

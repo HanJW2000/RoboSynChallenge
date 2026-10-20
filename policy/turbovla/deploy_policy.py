@@ -27,9 +27,9 @@ import torch
 from policy.inference_timing import finish_inference, start_inference
 
 
-DEFAULT_TURBOVLA_PYTHON = "/supconit-data/robosyn/envs/turbovla/bin/python"
-DEFAULT_TURBOVLA_ROOT = "/supconit-data/code/RoboSynChallenge_ws/TurboVLA"
-DEFAULT_CHECKPOINTS_ROOT = "/supconit-data/robosyn/checkpoints/turbovla"
+POLICY_DIR = Path(__file__).resolve().parent
+DEFAULT_TURBOVLA_ROOT = POLICY_DIR / "third_party" / "TurboVLA"
+DEFAULT_TURBOVLA_PYTHON = DEFAULT_TURBOVLA_ROOT / ".venv" / "bin" / "python"
 DEFAULT_CAM_ORDER = ["cam_high", "cam_left_wrist", "cam_right_wrist"]
 DEFAULT_TASK = "Click the bell"
 
@@ -104,9 +104,25 @@ class TurboVLAWorkerClient:
             usr_args.get("turbovla_starvla_runtime")
             or (self.tv_root / "third_party" / "starvla_runtime")
         )
-        checkpoints_root = Path(
-            usr_args.get("turbovla_checkpoints_root") or DEFAULT_CHECKPOINTS_ROOT
-        )
+        checkpoints_root_value = usr_args.get(
+            "turbovla_checkpoints_root"
+        ) or os.environ.get("TURBOVLA_CHECKPOINTS_ROOT")
+        if checkpoints_root_value:
+            checkpoints_root = Path(checkpoints_root_value).expanduser().resolve()
+        else:
+            checkpoints_root = next(
+                (
+                    parent / "dependencies"
+                    for parent in self.checkpoint_path.parents
+                    if (parent / "dependencies").is_dir()
+                ),
+                None,
+            )
+            if checkpoints_root is None:
+                raise ValueError(
+                    "Cannot locate TurboVLA dependency weights. Pass "
+                    "--turbovla_checkpoints_root or set TURBOVLA_CHECKPOINTS_ROOT."
+                )
         self.dinov3_path = usr_args.get("turbovla_dinov3_path") or str(
             checkpoints_root / "dinov3-vitl16"
         )

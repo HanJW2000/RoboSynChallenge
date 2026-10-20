@@ -27,10 +27,10 @@ eval_reset_sync_steps: 1
 # Path to steps_*_ema_model.safetensors. config.yaml and
 # dataset_statistics.json must exist in one of its parent directories.
 checkpoint_path: null
-turbovla_python: /supconit-data/robosyn/envs/turbovla/bin/python
-turbovla_root: /supconit-data/code/RoboSynChallenge_ws/TurboVLA
+turbovla_python: null
+turbovla_root: null
 turbovla_starvla_runtime: null
-turbovla_checkpoints_root: /supconit-data/robosyn/checkpoints/turbovla
+turbovla_checkpoints_root: null
 turbovla_dinov3_path: null
 turbovla_bert_path: null
 turbovla_init_ckpt: null

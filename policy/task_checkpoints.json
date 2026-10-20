@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "team": "scv-think-tank",
+  "huggingface_repo": "HanJW2000/RoboSynChallenge",
+  "huggingface_revision": "924324d49eeca83e3d23a035ee3a83168a0ac527",
+  "tasks": {
+    "table_rearrangement": {"policy": "turbovla", "checkpoint": "checkpoints/table_rearrangement/turbovla/final_model/ema_ema_pytorch_model.pt"},
+    "handle_basket": {"policy": "turbovla", "checkpoint": "checkpoints/handle_basket/turbovla/final_model/ema_ema_pytorch_model.pt"},
+    "mixer_operating": {"policy": "turbovla", "checkpoint": "checkpoints/mixer_operating/turbovla/final_model/ema_ema_pytorch_model.pt"},
+    "item_assembly": {"policy": "turbovla", "checkpoint": "checkpoints/item_assembly/turbovla/final_model/ema_ema_pytorch_model.pt"},
+    "water_pouring": {"policy": "turbovla", "checkpoint": "checkpoints/water_pouring/turbovla/final_model/ema_ema_pytorch_model.pt"},
+    "items_handover": {"policy": "turbovla", "checkpoint": "checkpoints/items_handover/turbovla/final_model/ema_ema_pytorch_model.pt"},
+    "click_bell": {"policy": "dp", "checkpoint": "checkpoints/click_bell/dp/pretrained_model"},
+    "manipulate_pipette": {"policy": "act", "repo_id": "RoboSynChallenge/ACT_sim_manipulate_pipette", "revision": "ca013b2e202d594bf347530c61c3ba28c06d1bc2"},
+    "drawer_open_place": {"policy": "smolvla", "repo_id": "RoboSynChallenge/SmolVLA_sim_drawer_open_place", "revision": "c0088d84a568f93fb4401aabafcc41cf643efcdd"},
+    "sample_loading": {"policy": "smolvla", "repo_id": "RoboSynChallenge/SmolVLA_sim_sample_loading", "revision": "2a4f41ab3be8e5f544c890d6054bc8de3be5c53b"}
+  }
+}

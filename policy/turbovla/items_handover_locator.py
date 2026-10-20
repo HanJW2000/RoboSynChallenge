@@ -48,10 +48,12 @@ class ItemsHandoverInferenceAdapter:
     def __init__(self, device: str):
         from transformers import AutoModelForZeroShotObjectDetection, AutoProcessor
 
-        model_path = os.environ.get(
-            "ITEMS_HANDOVER_DINO_PATH",
-            "/supconit-data/robosyn/checkpoints/pretrained/grounding-dino-base",
-        )
+        model_path = os.environ.get("ITEMS_HANDOVER_DINO_PATH")
+        if not model_path:
+            raise ValueError(
+                "ITEMS_HANDOVER_DINO_PATH must point to a local "
+                "GroundingDINO model directory when the optional locator is enabled."
+            )
         revision = os.environ.get(
             "ITEMS_HANDOVER_DINO_REVISION",
             "12bdfa3120f3e7ec7b434d90674b3396eccf88eb",

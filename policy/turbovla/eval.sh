@@ -21,6 +21,8 @@ if [[ -z "${EMBODICHAIN_ROOT:-}" ]]; then
 fi
 VENV_DIR="${ROBOSYN_VENV_DIR:-$EMBODICHAIN_ROOT/.venv}"
 PYTHON_BIN="${PYTHON_BIN:-$VENV_DIR/bin/python}"
+TURBOVLA_ROOT="${TURBOVLA_ROOT:-$SCRIPT_DIR/third_party/TurboVLA}"
+TURBOVLA_PYTHON="${TURBOVLA_PYTHON:-$TURBOVLA_ROOT/.venv/bin/python}"
 
 POLICY_NAME=turbovla
 
@@ -40,12 +42,8 @@ for i in "${!EXTRA_ARGS[@]}"; do
     esac
 done
 
-if [[ -n "${TURBOVLA_PYTHON:-}" ]]; then
-    EXTRA_ARGS+=(--turbovla_python "$TURBOVLA_PYTHON")
-fi
-if [[ -n "${TURBOVLA_ROOT:-}" ]]; then
-    EXTRA_ARGS+=(--turbovla_root "$TURBOVLA_ROOT")
-fi
+EXTRA_ARGS+=(--turbovla_python "$TURBOVLA_PYTHON")
+EXTRA_ARGS+=(--turbovla_root "$TURBOVLA_ROOT")
 
 # DexSim uses physical GPU ordinals from --gpu_id. Keep the simulator parent
 # unmasked, then mask only the TurboVLA worker via --turbovla_cuda_visible_devices.
@@ -68,6 +66,17 @@ fi
 
 if [[ ! -f "$CHECKPOINT_PATH" ]]; then
     echo "Error: checkpoint file does not exist: $CHECKPOINT_PATH" >&2
+    exit 1
+fi
+
+if [[ ! -x "$TURBOVLA_PYTHON" ]]; then
+    echo "Error: cannot find TurboVLA Python: $TURBOVLA_PYTHON" >&2
+    echo "Run: bash policy/turbovla/install_uv.sh" >&2
+    exit 1
+fi
+
+if [[ ! -d "$TURBOVLA_ROOT/third_party/starvla_runtime/starVLA" ]]; then
+    echo "Error: vendored starVLA source is missing under: $TURBOVLA_ROOT" >&2
     exit 1
 fi
 
